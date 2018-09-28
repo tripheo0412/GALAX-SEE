@@ -1,5 +1,6 @@
 package com.example.tripheo2410.galaxsee
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.app.AlertDialog
 import android.net.Uri
@@ -16,12 +17,6 @@ import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.google.ar.core.Plane.Type.*
-import android.R.attr.fragment
-import android.support.constraint.solver.widgets.ResolutionNode.RESOLVED
-
-
-
-
 
 class MainActivity : AppCompatActivity() {
     private val snackbarHelper = SnackbarHelper()
@@ -35,11 +30,12 @@ class MainActivity : AppCompatActivity() {
         RESOLVING,
         RESOLVED
     }
-
+    private lateinit var activity: Activity
     private var appAnchorState = AppAnchorState.NONE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        activity = this
         storageManager = StorageManager(this)
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
@@ -55,7 +51,23 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val dialog = ResolveDialogFragment()
-            dialog.setOkListener(MainActivity.this::onResolveOkPressed)
+
+            dialog.setOkListener(object: ResolveDialogFragment.OkListener{
+                override fun onOkPressed(dialogValue: String) {
+                    val shortCode = Integer.parseInt(dialogValue)
+                    storageManager.getCloudAnchorID(shortCode, object: StorageManager.CloudAnchorIdListener{
+                        override fun onCloudAnchorIdAvailable(cloudAnchorId: String?){
+                            val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
+                            setCloudAnchor(resolvedAnchor)
+                            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+                            snackbarHelper.showMessage(activity, "Now Resolving Anchor...")
+                            appAnchorState = AppAnchorState.RESOLVING
+                        }
+
+                    })
+                }
+
+            })
             dialog.show(supportFragmentManager, "Resolve")
         }
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
@@ -66,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             setCloudAnchor(newAnchor)
             var appAnchorState = AppAnchorState.HOSTING
             snackbarHelper.showMessage(this, "Now hosting anchor...")
-            placeObject(fragment, cloudAnchor, Uri.parse("ArcticFox_Posed.sfb"))
+            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
         }
 
     }
@@ -126,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
                 setCloudAnchor(resolvedAnchor)
                 placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
-                snackbarHelper.showMessage(this, "Now Resolving Anchor...")
+                snackbarHelper.showMessage(activity, "Now Resolving Anchor...")
                 appAnchorState = AppAnchorState.RESOLVING
             }
 
@@ -139,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         if (appAnchorState !== AppAnchorState.HOSTING && appAnchorState !== AppAnchorState.RESOLVING) {
             return
         }
-        val cloudState = cloudAnchor.getCloudAnchorState()
+        val cloudState = cloudAnchor!!.cloudAnchorState
         if (appAnchorState === AppAnchorState.HOSTING) {
             if (cloudState.isError) {
                 snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor.. $cloudState")
@@ -148,12 +160,12 @@ class MainActivity : AppCompatActivity() {
                 storageManager.nextShortCode(object: StorageManager.ShortCodeListener {
                     override fun onShortCodeAvailable(shortCode: Int?) {
                         if (shortCode == null) {
-                            snackbarHelper.showMessageWithDismiss(this, "Could not get shortCode")
-                            return@storageManager.nextShortCode
+                            snackbarHelper.showMessageWithDismiss(activity, "Could not get shortCode")
+                            return
                         }
-                        storageManager.storeUsingShortCode(shortCode, cloudAnchor.getCloudAnchorId())
+                        storageManager.storeUsingShortCode(shortCode!!, cloudAnchor!!.cloudAnchorId)
 
-                        snackbarHelper.showMessageWithDismiss(this, "Anchor hosted! Cloud Short Code: " + shortCode!!)
+                        snackbarHelper.showMessageWithDismiss(activity, "Anchor hosted! Cloud Short Code: " + shortCode!!)
                     }
 
                 })
