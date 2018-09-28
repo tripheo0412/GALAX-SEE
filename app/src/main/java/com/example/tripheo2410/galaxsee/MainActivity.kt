@@ -17,10 +17,7 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.google.ar.core.Plane.Type.*
 import android.R.attr.fragment
-import android.net.sip.SipSession
-import android.R.attr.fragment
-import android.R.attr.fragment
-
+import android.support.constraint.solver.widgets.ResolutionNode.RESOLVED
 
 
 
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val dialog = ResolveDialogFragment()
-
+            dialog.setOkListener(MainActivity.this::onResolveOkPressed)
             dialog.show(supportFragmentManager, "Resolve")
         }
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
@@ -121,25 +118,58 @@ class MainActivity : AppCompatActivity() {
         checkUpdatedAnchor()
     }
 
+
+    private fun onResolveOkPressed(dialogValue: String) {
+        val shortCode = Integer.parseInt(dialogValue)
+        storageManager.getCloudAnchorID(shortCode, object: StorageManager.CloudAnchorIdListener{
+            override fun onCloudAnchorIdAvailable(cloudAnchorId: String?){
+                val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
+                setCloudAnchor(resolvedAnchor)
+                placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+                snackbarHelper.showMessage(this, "Now Resolving Anchor...")
+                appAnchorState = AppAnchorState.RESOLVING
+            }
+
+        })
+    }
+
+
     @Synchronized
     private fun checkUpdatedAnchor() {
-        if (appAnchorState !== AppAnchorState.HOSTING) {
+        if (appAnchorState !== AppAnchorState.HOSTING && appAnchorState !== AppAnchorState.RESOLVING) {
             return
         }
-        val cloudState = cloudAnchor!!.getCloudAnchorState()
-
+        val cloudState = cloudAnchor.getCloudAnchorState()
         if (appAnchorState === AppAnchorState.HOSTING) {
             if (cloudState.isError) {
                 snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor.. $cloudState")
                 appAnchorState = AppAnchorState.NONE
             } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
-                snackbarHelper.showMessageWithDismiss(this, "Anchor hosted with id " + cloudAnchor!!.getCloudAnchorId())
+                storageManager.nextShortCode(object: StorageManager.ShortCodeListener {
+                    override fun onShortCodeAvailable(shortCode: Int?) {
+                        if (shortCode == null) {
+                            snackbarHelper.showMessageWithDismiss(this, "Could not get shortCode")
+                            return@storageManager.nextShortCode
+                        }
+                        storageManager.storeUsingShortCode(shortCode, cloudAnchor.getCloudAnchorId())
+
+                        snackbarHelper.showMessageWithDismiss(this, "Anchor hosted! Cloud Short Code: " + shortCode!!)
+                    }
+
+                })
+
                 appAnchorState = AppAnchorState.HOSTED
             }
+        } else if (appAnchorState === AppAnchorState.RESOLVING) {
+            if (cloudState.isError) {
+                snackbarHelper.showMessageWithDismiss(this, "Error resolving anchor.. $cloudState")
+                appAnchorState = AppAnchorState.NONE
+            } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
+                snackbarHelper.showMessageWithDismiss(this, "Anchor resolved successfully")
+                appAnchorState = AppAnchorState.RESOLVED
+            }
         }
+
     }
-
-
-
 
 }
