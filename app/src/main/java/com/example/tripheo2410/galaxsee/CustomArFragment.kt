@@ -5,12 +5,11 @@ import com.google.ar.core.Session;
 import com.google.ar.sceneform.ux.ArFragment;
 
 class CustomArFragment : ArFragment() {
-    override fun getSessionConfiguration(session: Session?): Config {
-        //Disable the initial hand gesture
+
+    override fun getSessionConfiguration(session: Session): Config {
         planeDiscoveryController.setInstructionView(null)
-        var config : Config = super.getSessionConfiguration(session)
+        val config = super.getSessionConfiguration(session)
         config.cloudAnchorMode = Config.CloudAnchorMode.ENABLED
         return config
     }
-
 }

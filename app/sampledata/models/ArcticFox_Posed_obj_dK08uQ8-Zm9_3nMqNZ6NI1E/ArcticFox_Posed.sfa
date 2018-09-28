@@ -46,7 +46,7 @@
    },
    samplers: [
       {
-         file: "sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E\\ArcticFox_Diffuse.png",
+         file: "sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E/ArcticFox_Diffuse.png",
          name: "ArcticFox_Diffuse",
          pipeline_name: "ArcticFox_Diffuse.png",
       },

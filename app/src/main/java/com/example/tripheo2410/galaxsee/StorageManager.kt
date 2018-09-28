@@ -12,8 +12,8 @@ import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 
 /** Helper class for Firebase storage of cloud anchor IDs.  */
-internal class StorageManager(context : Context) {
-    private var rootRef: DatabaseReference
+internal class StorageManager(context: Context) {
+    private val rootRef: DatabaseReference
 
     /** Listener for a new Cloud Anchor ID from the Firebase Database.  */
     internal interface CloudAnchorIdListener {
@@ -48,13 +48,12 @@ internal class StorageManager(context : Context) {
                                 return Transaction.success(currentData)
                             }
 
-                            override fun onComplete(
-                                    error: DatabaseError?, committed: Boolean, currentData: DataSnapshot?) {
+                            override fun onComplete(error: DatabaseError?, committed: Boolean, currentData: DataSnapshot?) {
                                 if (!committed) {
-                                    Log.e(TAG, "Firebase Error", error!!.toException())
+                                    Log.e(TAG, "Firebase Error", error?.toException())
                                     listener.onShortCodeAvailable(null)
                                 } else {
-                                    listener.onShortCodeAvailable(currentData!!.getValue(Int::class.java))
+                                    listener.onShortCodeAvailable(currentData?.getValue(Int::class.java))
                                 }
                             }
                         })
@@ -92,6 +91,6 @@ internal class StorageManager(context : Context) {
         private val KEY_ROOT_DIR = "shared_anchor_codelab_root"
         private val KEY_NEXT_SHORT_CODE = "next_short_code"
         private val KEY_PREFIX = "anchor;"
-        private val INITIAL_SHORT_CODE = 142
+        private val INITIAL_SHORT_CODE = 166
     }
 }
