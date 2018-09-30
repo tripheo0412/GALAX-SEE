@@ -1,11 +1,16 @@
 package com.example.tripheo2410.galaxsee
 
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
+import com.google.ar.core.ArCoreApk
+import com.google.ar.core.Config
+import com.google.ar.core.Session
+import com.google.ar.core.exceptions.UnavailableException
 
 
 /** Static utility methods to simplify creating multiple demo activities.  */
@@ -38,5 +43,36 @@ object DemoUtils {
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
                 }
+    }
+
+    /**
+     * Creates an ARCore session. This checks for the CAMERA permission, and if granted, checks the
+     * state of the ARCore installation. If there is a problem an exception is thrown. Care must be
+     * taken to update the installRequested flag as needed to avoid an infinite checking loop. It
+     * should be set to true if null is returned from this method, and called again when the
+     * application is resumed.
+     *
+     * @param activity - the activity currently active.
+     * @param installRequested - the indicator for ARCore that when checking the state of ARCore, if
+     * an installation was already requested. This is true if this method previously returned
+     * null. and the camera permission has been granted.
+     */
+    @Throws(UnavailableException::class)
+    fun createArSession(activity: Activity, installRequested: Boolean): Session? {
+        var session: Session? = null
+        // if we have the camera permission, create the session
+        if (hasCameraPermission(activity)) {
+            when (ArCoreApk.getInstance().requestInstall(activity, !installRequested)) {
+                ArCoreApk.InstallStatus.INSTALL_REQUESTED -> return null
+                ArCoreApk.InstallStatus.INSTALLED -> {
+                }
+            }
+            session = Session(activity)
+            // IMPORTANT!!!  ArSceneView requires the `LATEST_CAMERA_IMAGE` non-blocking update mode.
+            val config = Config(session)
+            config.updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
+            session.configure(config)
+        }
+        return session
     }
 }
