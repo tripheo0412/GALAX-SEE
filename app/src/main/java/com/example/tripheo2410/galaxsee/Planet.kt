@@ -10,6 +10,10 @@ class Planet {
 
         private val INFO_CARD_Y_POS_COEFF = 0.55f
 
+        init {
+            setOnTapListener(this)
+        }
+
         override fun onTap(hitTestResult: HitTestResult?, motionEvent: MotionEvent?) {
             if (infoCard == null) {
                 return
