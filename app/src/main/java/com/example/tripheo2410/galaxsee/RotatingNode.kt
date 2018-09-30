@@ -2,6 +2,7 @@ package com.example.tripheo2410.galaxsee
 
 import android.animation.ObjectAnimator
 import android.view.animation.LinearInterpolator
+import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.QuaternionEvaluator
@@ -19,6 +20,34 @@ class RotatingNode(private val solarSettings: SolarSettings, private val isOrbit
         } else {
             solarSettings.rotationSpeedMultiplier
         }
+
+    override fun onUpdate(frameTime: FrameTime?) {
+        super.onUpdate(frameTime)
+
+        // Animation hasn't been set up.
+        if (orbitAnimation == null) {
+            return
+        }
+
+        // Check if we need to change the speed of rotation.
+        val speedMultiplier = speedMultiplier
+
+        // Nothing has changed. Continue rotating at the same speed.
+        if (lastSpeedMultiplier == speedMultiplier) {
+            return
+        }
+
+        if (speedMultiplier == 0.0f) {
+            orbitAnimation!!.pause()
+        } else {
+            orbitAnimation!!.resume()
+
+            val animatedFraction = orbitAnimation!!.animatedFraction
+            orbitAnimation!!.duration = animationDuration
+            orbitAnimation!!.setCurrentFraction(animatedFraction)
+        }
+        lastSpeedMultiplier = speedMultiplier
+    }
 
     /** Sets rotation speed  */
     fun setDegreesPerSecond(degreesPerSecond: Float) {
