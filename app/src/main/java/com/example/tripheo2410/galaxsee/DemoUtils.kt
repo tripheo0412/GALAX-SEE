@@ -2,10 +2,12 @@ package com.example.tripheo2410.galaxsee
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
@@ -125,5 +127,36 @@ object DemoUtils {
             Log.e(TAG, "Exception: $sessionException")
         }
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+
+    /**
+     * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
+     * on this device.
+     *
+     *
+     * Sceneform requires Android N on the device as well as OpenGL 3.0 capabilities.
+     *
+     *
+     * Finishes the activity if Sceneform can not run
+     */
+    fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            Log.e(TAG, "Sceneform requires Android N or later")
+            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show()
+            activity.finish()
+            return false
+        }
+
+        val openGlVersionString = (activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
+                .deviceConfigurationInfo
+                .glEsVersion
+        if (java.lang.Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
+            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later")
+            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+                    .show()
+            activity.finish()
+            return false
+        }
+        return true
     }
 }
