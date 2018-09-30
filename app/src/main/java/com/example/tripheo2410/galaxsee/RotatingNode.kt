@@ -1,7 +1,11 @@
 package com.example.tripheo2410.galaxsee
 
 import android.animation.ObjectAnimator
+import android.view.animation.LinearInterpolator
 import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.math.Quaternion
+import com.google.ar.sceneform.math.QuaternionEvaluator
+import com.google.ar.sceneform.math.Vector3
 
 class RotatingNode(private val solarSettings: SolarSettings, private val isOrbit: Boolean) : Node() {
     private var orbitAnimation: ObjectAnimator? = null
@@ -45,5 +49,32 @@ class RotatingNode(private val solarSettings: SolarSettings, private val isOrbit
         }
         orbitAnimation!!.cancel()
         orbitAnimation = null
+    }
+
+    /** Returns an ObjectAnimator that makes this node rotate.  */
+    private fun createAnimator(): ObjectAnimator {
+        // Node's setLocalRotation method accepts Quaternions as parameters.
+        // First, set up orientations that will animate a circle.
+        val orientation1 = Quaternion.axisAngle(Vector3(0.0f, 1.0f, 0.0f), 0f)
+        val orientation2 = Quaternion.axisAngle(Vector3(0.0f, 1.0f, 0.0f), 120f)
+        val orientation3 = Quaternion.axisAngle(Vector3(0.0f, 1.0f, 0.0f), 240f)
+        val orientation4 = Quaternion.axisAngle(Vector3(0.0f, 1.0f, 0.0f), 360f)
+
+        val orbitAnimation = ObjectAnimator()
+        orbitAnimation.setObjectValues(orientation1, orientation2, orientation3, orientation4)
+
+        // Next, give it the localRotation property.
+        orbitAnimation.propertyName = "localRotation"
+
+        // Use Sceneform's QuaternionEvaluator.
+        orbitAnimation.setEvaluator(QuaternionEvaluator())
+
+        //  Allow orbitAnimation to repeat forever
+        orbitAnimation.repeatCount = ObjectAnimator.INFINITE
+        orbitAnimation.repeatMode = ObjectAnimator.RESTART
+        orbitAnimation.interpolator = LinearInterpolator()
+        orbitAnimation.setAutoCancel(true)
+
+        return orbitAnimation
     }
 }
