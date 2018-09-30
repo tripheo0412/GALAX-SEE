@@ -1,9 +1,13 @@
 package com.example.tripheo2410.galaxsee
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
@@ -74,5 +78,16 @@ object DemoUtils {
             session.configure(config)
         }
         return session
+    }
+
+    /** Check to see we have the necessary permissions for this app, and ask for them if we don't.  */
+    fun requestCameraPermission(activity: Activity, requestCode: Int) {
+        ActivityCompat.requestPermissions(
+                activity, arrayOf(Manifest.permission.CAMERA), requestCode)
+    }
+
+    /** Check to see we have the necessary permissions for this app.  */
+    fun hasCameraPermission(activity: Activity): Boolean {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 }
