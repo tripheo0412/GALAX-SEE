@@ -16,4 +16,16 @@ class RotatingNode(private val solarSettings: SolarSettings, private val isOrbit
             solarSettings.rotationSpeedMultiplier
         }
 
+    /** Sets rotation speed  */
+    fun setDegreesPerSecond(degreesPerSecond: Float) {
+        this.degreesPerSecond = degreesPerSecond
+    }
+
+    override fun onActivate() {
+        startAnimation()
+    }
+
+    override fun onDeactivate() {
+        stopAnimation()
+    }
 }
