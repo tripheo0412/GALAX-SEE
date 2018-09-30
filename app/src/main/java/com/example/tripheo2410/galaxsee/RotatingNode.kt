@@ -28,4 +28,22 @@ class RotatingNode(private val solarSettings: SolarSettings, private val isOrbit
     override fun onDeactivate() {
         stopAnimation()
     }
+
+    private fun startAnimation() {
+        if (orbitAnimation != null) {
+            return
+        }
+        orbitAnimation = createAnimator()
+        orbitAnimation!!.target = this
+        orbitAnimation!!.duration = animationDuration
+        orbitAnimation!!.start()
+    }
+
+    private fun stopAnimation() {
+        if (orbitAnimation == null) {
+            return
+        }
+        orbitAnimation!!.cancel()
+        orbitAnimation = null
+    }
 }
