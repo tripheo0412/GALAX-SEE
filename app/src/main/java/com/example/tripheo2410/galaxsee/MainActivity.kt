@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                         override fun onCloudAnchorIdAvailable(cloudAnchorId: String?) {
                             val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
                             setCloudAnchor(resolvedAnchor)
-                            placeObject(fragment, cloudAnchor, Uri.parse("model.sfb"))
+                            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
                             snackbarHelper.showMessage(activity, "Now Resolving Anchor...")
                             appAnchorState = AppAnchorState.RESOLVING
                         }
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
             appAnchorState = AppAnchorState.HOSTING
             snackbarHelper.showMessage(this, "Now hosting anchor...")
-            placeObject(fragment, cloudAnchor, Uri.parse("model.sfb"))
+            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
         }
 
     }
@@ -243,6 +243,7 @@ class MainActivity : AppCompatActivity() {
         node.renderable = renderable
         node.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
+        fragment.arSceneView.scene.addChild(solarSystem)
         node.select()
     }
 
