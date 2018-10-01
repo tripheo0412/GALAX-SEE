@@ -1,6 +1,6 @@
 # GALAX-SEE
 
-This is an AR project which replicate exactly a solar systems (with self orbit and ellipse trajectory),also you can share the experience in the same environment with other device through 
+This is an AR project which replicates exactly a solar systems (with self orbiting and ellipse trajectory), also you can share the experience in the same environment with other devices
 
 ## Getting Started
 
