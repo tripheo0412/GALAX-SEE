@@ -88,9 +88,9 @@ internal class StorageManager(context: Context) {
     companion object {
 
         private val TAG = StorageManager::class.java.name
-        private val KEY_ROOT_DIR = "shared_anchor_codelab_root"
-        private val KEY_NEXT_SHORT_CODE = "next_short_code"
-        private val KEY_PREFIX = "anchor;"
+        private const val KEY_ROOT_DIR = "shared_anchor_codelab_root"
+        private const val KEY_NEXT_SHORT_CODE = "next_short_code"
+        private const val KEY_PREFIX = "anchor;"
         private val INITIAL_SHORT_CODE = 166
     }
 }

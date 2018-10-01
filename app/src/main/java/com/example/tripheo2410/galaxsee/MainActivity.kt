@@ -21,6 +21,7 @@ import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.CompletableFuture
 
 class MainActivity : AppCompatActivity() {
@@ -29,11 +30,7 @@ class MainActivity : AppCompatActivity() {
     private  var cloudAnchor: Anchor? = null
     private lateinit var storageManager: StorageManager
     private lateinit var activity: Activity
-    private var installRequested: Boolean = false
-    private var gestureDetector: GestureDetector? = null
     private val solarSettings = SolarSettings()
-    private var arSceneView: ArSceneView? = null
-    private var loadingMessageSnackbar: Snackbar? = null
     private var sunRenderable: ModelRenderable? = null
     private var mercuryRenderable: ModelRenderable? = null
     private var venusRenderable: ModelRenderable? = null
@@ -49,13 +46,9 @@ class MainActivity : AppCompatActivity() {
     // True once scene is loaded
     private var hasFinishedLoading = false
 
-    // True once the scene has been placed.
-    private var hasPlacedSolarSystem = false
     companion object {
-        private val RC_PERMISSIONS = 0x123
-
         // Astronomical units to meters ratio. Used for positioning the planets of the solar system.
-        private val AU_TO_METERS = 0.5f
+        private const val AU_TO_METERS = 0.5f
     }
     private enum class AppAnchorState {
         NONE,
@@ -99,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 saturnStage,
                 uranusStage,
                 neptuneStage)
-                .handle<Any> { notUsed, throwable ->
+                .handle<Any> { _, throwable ->
                     // When you build a Renderable, Sceneform loads its resources in the background while
                     // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
                     // before calling get().
@@ -132,11 +125,13 @@ class MainActivity : AppCompatActivity() {
 
         val clearButton : Button = findViewById(R.id.clear_button)
         clearButton.setOnClickListener {
+            resolve_button.isEnabled = true
             setCloudAnchor(null)
         }
 
         val resolveButton : Button = findViewById(R.id.resolve_button)
         resolveButton.setOnClickListener {
+            resolveButton.isEnabled = false
             if (cloudAnchor != null) {
                 snackbarHelper.showMessageWithDismiss(parent, "Please clear Anchor")
                 return@setOnClickListener
@@ -161,10 +156,11 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "Resolve")
 
         }
-        fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, motionEvent: MotionEvent ->
-            if (plane.getType() !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
+        fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
+            if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
                 return@setOnTapArPlaneListener
             }
+            resolveButton.isEnabled = false
             val newAnchor = fragment.arSceneView.session.hostCloudAnchor(hitResult.createAnchor())
 
             setCloudAnchor(newAnchor)
@@ -181,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         if (appAnchorState !== AppAnchorState.HOSTING && appAnchorState !== AppAnchorState.RESOLVING) {
             return
         }
-        val cloudState = cloudAnchor!!.getCloudAnchorState()
+        val cloudState = cloudAnchor!!.cloudAnchorState
         if (appAnchorState === AppAnchorState.HOSTING) {
             if (cloudState.isError) {
                 snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor.. $cloudState")
@@ -191,11 +187,11 @@ class MainActivity : AppCompatActivity() {
                     override fun onShortCodeAvailable(shortCode: Int?) {
                         if (shortCode == null) {
                             snackbarHelper.showMessageWithDismiss(activity, "Could not get shortCode")
-                            return@onShortCodeAvailable
+                            return
                         }
-                        storageManager.storeUsingShortCode(shortCode!!, cloudAnchor!!.getCloudAnchorId())
+                        storageManager.storeUsingShortCode(shortCode, cloudAnchor!!.cloudAnchorId)
 
-                        snackbarHelper.showMessageWithDismiss(activity, "Anchor hosted! Cloud Short Code: " + shortCode!!)
+                        snackbarHelper.showMessageWithDismiss(activity, "Anchor hosted! Cloud Short Code: $shortCode")
                     }
 
                 })
