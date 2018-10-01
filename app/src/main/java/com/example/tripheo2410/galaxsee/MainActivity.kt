@@ -4,15 +4,19 @@ import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Button
 import com.google.ar.core.Anchor
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
+import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 
@@ -22,6 +26,34 @@ class MainActivity : AppCompatActivity() {
     private  var cloudAnchor: Anchor? = null
     private lateinit var storageManager: StorageManager
     private lateinit var activity: Activity
+    private var installRequested: Boolean = false
+    private var gestureDetector: GestureDetector? = null
+    private val solarSettings = SolarSettings()
+    private var arSceneView: ArSceneView? = null
+    private var loadingMessageSnackbar: Snackbar? = null
+    private var sunRenderable: ModelRenderable? = null
+    private var mercuryRenderable: ModelRenderable? = null
+    private var venusRenderable: ModelRenderable? = null
+    private var earthRenderable: ModelRenderable? = null
+    private var lunaRenderable: ModelRenderable? = null
+    private var marsRenderable: ModelRenderable? = null
+    private var jupiterRenderable: ModelRenderable? = null
+    private var saturnRenderable: ModelRenderable? = null
+    private var uranusRenderable: ModelRenderable? = null
+    private var neptuneRenderable: ModelRenderable? = null
+    private val solarControlsRenderable: ViewRenderable? = null
+
+    // True once scene is loaded
+    private var hasFinishedLoading = false
+
+    // True once the scene has been placed.
+    private var hasPlacedSolarSystem = false
+    companion object {
+        private val RC_PERMISSIONS = 0x123
+
+        // Astronomical units to meters ratio. Used for positioning the planets of the solar system.
+        private val AU_TO_METERS = 0.5f
+    }
     private enum class AppAnchorState {
         NONE,
         HOSTING,
@@ -58,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                         override fun onCloudAnchorIdAvailable(cloudAnchorId: String?) {
                             val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
                             setCloudAnchor(resolvedAnchor)
-                            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+                            placeObject(fragment, cloudAnchor, Uri.parse("model.sfb"))
                             snackbarHelper.showMessage(activity, "Now Resolving Anchor...")
                             appAnchorState = AppAnchorState.RESOLVING
                         }
@@ -80,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
             appAnchorState = AppAnchorState.HOSTING
             snackbarHelper.showMessage(this, "Now hosting anchor...")
-            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+            placeObject(fragment, cloudAnchor, Uri.parse("model.sfb"))
         }
 
     }

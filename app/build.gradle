@@ -103,3 +103,8 @@ sceneform.asset('sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E/A
         'default',
         'sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E/ArcticFox_Posed.sfa',
         'src/main/assets/ArcticFox_Posed')
+
+sceneform.asset('sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.gltf',
+        'default',
+        'sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.sfa',
+        'src/main/assets/model')
