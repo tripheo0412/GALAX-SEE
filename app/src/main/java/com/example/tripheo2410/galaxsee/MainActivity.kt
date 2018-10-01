@@ -137,6 +137,11 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val dialog = ResolveDialogFragment()
+            dialog.setCancelListener(object: ResolveDialogFragment.CancelListener {
+                override fun onCancelPressed() {
+                    resolveButton.isEnabled = true
+                }
+            })
             dialog.setOkListener(object : ResolveDialogFragment.OkListener {
                 override fun onOkPressed(dialogValue: String) {
                     val shortCode = Integer.parseInt(dialogValue)
@@ -264,11 +269,6 @@ class MainActivity : AppCompatActivity() {
         sunVisual.setParent(sun)
         sunVisual.renderable = sunRenderable
         sunVisual.localScale = Vector3(0.5f, 0.5f, 0.5f)
-
-        val solarControls = Node()
-        solarControls.setParent(sun)
-        solarControls.renderable = solarControlsRenderable
-        solarControls.localPosition = Vector3(0.0f, 0.25f, 0.0f)
 
         createPlanet("Mercury", sun, 0.4f, 47f, mercuryRenderable, 0.019f)
 

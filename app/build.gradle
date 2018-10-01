@@ -108,3 +108,8 @@ sceneform.asset('sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.gltf
         'default',
         'sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.sfa',
         'src/main/assets/model')
+
+sceneform.asset('sampledata/models/model_gltf_28nBVxw_0Hb_5C0bRPUK-HA/model.gltf',
+        'default',
+        'sampledata/models/model_gltf_28nBVxw_0Hb_5C0bRPUK-HA/model.sfa',
+        'src/main/assets/model1')

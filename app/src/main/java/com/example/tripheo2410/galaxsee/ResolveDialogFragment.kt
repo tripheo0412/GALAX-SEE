@@ -16,6 +16,7 @@ import android.widget.LinearLayout.LayoutParams
 class ResolveDialogFragment : DialogFragment() {
 
     private var okListener: OkListener? = null
+    private var cancelListener: CancelListener? = null
     private var shortCodeField: EditText? = null
 
     /**
@@ -39,9 +40,17 @@ class ResolveDialogFragment : DialogFragment() {
         fun onOkPressed(dialogValue: String)
     }
 
+    internal interface CancelListener {
+        fun onCancelPressed()
+    }
+
     /** Sets a listener that is invoked when the OK button on this dialog is pressed.  */
     internal fun setOkListener(okListener: OkListener) {
         this.okListener = okListener
+    }
+
+    internal fun setCancelListener(cancelListener: CancelListener) {
+        this.cancelListener = cancelListener
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -58,7 +67,9 @@ class ResolveDialogFragment : DialogFragment() {
                         okListener!!.onOkPressed(shortCodeText.toString())
                     }
                 }
-                .setNegativeButton("Cancel") { dialog, which -> }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    cancelListener!!.onCancelPressed()
+                }
         return builder.create()
     }
 }
