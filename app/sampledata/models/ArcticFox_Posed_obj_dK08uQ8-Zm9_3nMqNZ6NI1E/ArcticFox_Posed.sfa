@@ -13,10 +13,10 @@
             },
             {
                baseColorTint: [
-                  1,
-                  1,
-                  1,
-                  1,
+                  0,
+                  0,
+                  0,
+                  0,
                ],
             },
             {
@@ -26,7 +26,7 @@
                roughness: 1,
             },
             {
-               opacity: null,
+               opacity: 100000,
             },
          ],
          source: "build/sceneform_sdk/default_materials/obj_material.sfm",

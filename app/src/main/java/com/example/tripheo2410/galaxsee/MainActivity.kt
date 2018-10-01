@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                         override fun onCloudAnchorIdAvailable(cloudAnchorId: String?) {
                             val resolvedAnchor = fragment.arSceneView.session.resolveCloudAnchor(cloudAnchorId)
                             setCloudAnchor(resolvedAnchor)
-                            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+                            placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
                             snackbarHelper.showMessage(activity, "Now Resolving Anchor...")
                             appAnchorState = AppAnchorState.RESOLVING
                         }
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
 
             appAnchorState = AppAnchorState.HOSTING
             snackbarHelper.showMessage(this, "Now hosting anchor...")
-            placeObject(fragment, cloudAnchor, Uri.parse("Fox.sfb"))
+            placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
         }
 
     }
@@ -239,30 +239,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun addNodeToScene(fragment: ArFragment, anchor: Anchor, renderable: Renderable) {
         val anchorNode = AnchorNode(anchor)
-        val solarSystem = createSolarSystem(anchor)
-        val node = TransformableNode(fragment.transformationSystem)
-        node.renderable = renderable
-        node.setParent(anchorNode)
-        fragment.arSceneView.scene.addChild(anchorNode)
-        fragment.arSceneView.scene.addChild(solarSystem)
-        node.select()
-    }
-
-    private fun setCloudAnchor(newAnchor: Anchor?) {
-        if (cloudAnchor != null) {
-            cloudAnchor!!.detach()
-        }
-
-        cloudAnchor = newAnchor
-        appAnchorState = AppAnchorState.NONE
-        snackbarHelper.hide(this)
-    }
-
-    private fun createSolarSystem(anchor: Anchor): Node {
-        val base = AnchorNode(anchor)
-
-        val sun = Node()
-        sun.setParent(base)
+        val sun = TransformableNode(fragment.transformationSystem)
+        sun.renderable = renderable
+        sun.localScale = Vector3(0.5f, 0.5f, 0.5f)
+        sun.setParent(anchorNode)
         sun.localPosition = Vector3(0.0f, 0.5f, 0.0f)
 
         val sunVisual = Node()
@@ -287,9 +267,21 @@ class MainActivity : AppCompatActivity() {
         createPlanet("Uranus", sun, 5.2f, 7f, uranusRenderable, 0.1f)
 
         createPlanet("Neptune", sun, 6.1f, 5f, neptuneRenderable, 0.074f)
-
-        return base
+        fragment.arSceneView.scene.addChild(anchorNode)
+        //fragment.arSceneView.scene.addChild(solarSystem)
+        sun.select()
     }
+
+    private fun setCloudAnchor(newAnchor: Anchor?) {
+        if (cloudAnchor != null) {
+            cloudAnchor!!.detach()
+        }
+
+        cloudAnchor = newAnchor
+        appAnchorState = AppAnchorState.NONE
+        snackbarHelper.hide(this)
+    }
+
 
     private fun createPlanet(
             name: String,
