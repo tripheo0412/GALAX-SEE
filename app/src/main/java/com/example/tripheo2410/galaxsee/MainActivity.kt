@@ -14,6 +14,8 @@ import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
@@ -251,5 +253,43 @@ class MainActivity : AppCompatActivity() {
         cloudAnchor = newAnchor
         appAnchorState = AppAnchorState.NONE
         snackbarHelper.hide(this)
+    }
+
+    private fun createSolarSystem(): Node {
+        val base = Node()
+
+        val sun = Node()
+        sun.setParent(base)
+        sun.localPosition = Vector3(0.0f, 0.5f, 0.0f)
+
+        val sunVisual = Node()
+        sunVisual.setParent(sun)
+        sunVisual.renderable = sunRenderable
+        sunVisual.localScale = Vector3(0.5f, 0.5f, 0.5f)
+
+        val solarControls = Node()
+        solarControls.setParent(sun)
+        solarControls.renderable = solarControlsRenderable
+        solarControls.localPosition = Vector3(0.0f, 0.25f, 0.0f)
+
+        createPlanet("Mercury", sun, 0.4f, 47f, mercuryRenderable, 0.019f)
+
+        createPlanet("Venus", sun, 0.7f, 35f, venusRenderable, 0.0475f)
+
+        val earth = createPlanet("Earth", sun, 1.0f, 29f, earthRenderable, 0.05f)
+
+        createPlanet("Moon", earth, 0.15f, 100f, lunaRenderable, 0.018f)
+
+        createPlanet("Mars", sun, 1.5f, 24f, marsRenderable, 0.0265f)
+
+        createPlanet("Jupiter", sun, 2.2f, 13f, jupiterRenderable, 0.16f)
+
+        createPlanet("Saturn", sun, 3.5f, 9f, saturnRenderable, 0.1325f)
+
+        createPlanet("Uranus", sun, 5.2f, 7f, uranusRenderable, 0.1f)
+
+        createPlanet("Neptune", sun, 6.1f, 5f, neptuneRenderable, 0.074f)
+
+        return base
     }
 }
