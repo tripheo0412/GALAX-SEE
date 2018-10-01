@@ -238,6 +238,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addNodeToScene(fragment: ArFragment, anchor: Anchor, renderable: Renderable) {
         val anchorNode = AnchorNode(anchor)
+        val solarSystem = createSolarSystem(anchor)
         val node = TransformableNode(fragment.transformationSystem)
         node.renderable = renderable
         node.setParent(anchorNode)
@@ -255,8 +256,8 @@ class MainActivity : AppCompatActivity() {
         snackbarHelper.hide(this)
     }
 
-    private fun createSolarSystem(): Node {
-        val base = Node()
+    private fun createSolarSystem(anchor: Anchor): Node {
+        val base = AnchorNode(anchor)
 
         val sun = Node()
         sun.setParent(base)
