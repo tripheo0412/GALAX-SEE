@@ -9,8 +9,11 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Android studio 3.0 or up
+
 Android phone 7.0 or up (api 24 or up)
+
 AR capable phone
+
 ```
 git clone https://github.com/tripheo0412/GALAX-SEE.git
 ```
@@ -21,13 +24,22 @@ After cloning the project please use android studio to install the project to yo
 
 ## Running the demo
 To host a solar system
+
 Please move phone in circle to help the AR system to detect a plane
+
 Tap on the detected surface to place a solar system -> system will auto host the room (it takes about 1 minute)
 
+
+
+
 To receive solar system from someone else
+
 Place phone in same environment and place with the host device
+
 Tap resolve button and enter room code of the host device
+
 You will now get the same solar system with the same coordinate with the host device
+
 
 ## Built With
 
