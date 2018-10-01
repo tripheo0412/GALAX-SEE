@@ -23,7 +23,7 @@ git clone https://github.com/tripheo0412/GALAX-SEE.git
 After cloning the project please use android studio to install the project to your phone
 
 ## Running the demo
-To host a solar system
+**To host a solar system**
 
 Please move phone in circle to help the AR system to detect a plane
 
@@ -32,7 +32,7 @@ Tap on the detected surface to place a solar system -> system will auto host the
 
 
 
-To receive solar system from someone else
+**To receive solar system from someone else**
 
 Place phone in same environment and place with the host device
 
