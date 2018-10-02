@@ -14,12 +14,10 @@ Android phone 7.0 or up (api 24 or up)
 
 AR capable phone
 
+### Installing
 ```
 git clone https://github.com/tripheo0412/GALAX-SEE.git
 ```
-
-### Installing
-
 After cloning the project please use android studio to install the project to your phone
 
 ## Running the demo
