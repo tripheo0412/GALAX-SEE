@@ -93,10 +93,6 @@ class MainActivity : AppCompatActivity() {
                 uranusStage,
                 neptuneStage)
                 .handle<Any> { _, throwable ->
-                    // When you build a Renderable, Sceneform loads its resources in the background while
-                    // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
-                    // before calling get().
-
                     if (throwable != null) {
                         DemoUtils.displayError(this, "Unable to load renderable", throwable)
                         return@handle null
@@ -276,7 +272,6 @@ class MainActivity : AppCompatActivity() {
         if (cloudAnchor != null) {
             cloudAnchor!!.detach()
         }
-
         cloudAnchor = newAnchor
         appAnchorState = AppAnchorState.NONE
         snackbarHelper.hide(this)
@@ -293,7 +288,6 @@ class MainActivity : AppCompatActivity() {
         val orbit = RotatingNode(solarSettings, true)
         orbit.setDegreesPerSecond(orbitDegreesPerSecond)
         orbit.setParent(parent)
-
         // Create the planet and position it relative to the sun.
         val planet = Planet(this, name, planetScale, renderable!!, solarSettings)
         planet.setParent(orbit)
