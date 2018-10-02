@@ -102,17 +102,3 @@ sceneform.asset('sampledata/models/Venus/Venus.gltf',
         'sampledata/models/Venus/Venus.sfa',
         'src/main/assets/Venus')
 
-sceneform.asset('sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E/ArcticFox_Posed.obj',
-        'default',
-        'sampledata/models/ArcticFox_Posed_obj_dK08uQ8-Zm9_3nMqNZ6NI1E/ArcticFox_Posed.sfa',
-        'src/main/assets/ArcticFox_Posed')
-
-sceneform.asset('sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.gltf',
-        'default',
-        'sampledata/models/model_gltf_6sREkB1I8d7_dQIL62FM1hJ/model.sfa',
-        'src/main/assets/model')
-
-sceneform.asset('sampledata/models/model_gltf_28nBVxw_0Hb_5C0bRPUK-HA/model.gltf',
-        'default',
-        'sampledata/models/model_gltf_28nBVxw_0Hb_5C0bRPUK-HA/model.sfa',
-        'src/main/assets/model1')
