@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Button
+import com.github.florent37.tutoshowcase.TutoShowcase
 import com.google.ar.core.Anchor
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
@@ -62,6 +63,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        TutoShowcase.from(this)
+    .setContentView(R.layout.tuto_sample)
+
+    .on(R.id.about) //a view in actionbar
+    .addCircle()
+    .withBorder()
+    .onClick(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //custom action
+        }
+    })
+
+    .on(R.id.swipable)
+    .displaySwipableRight()
+
+    .show();
         activity = this
         storageManager =  StorageManager(this)
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
