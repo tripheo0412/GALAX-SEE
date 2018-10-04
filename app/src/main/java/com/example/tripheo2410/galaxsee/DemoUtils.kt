@@ -35,7 +35,7 @@ object DemoUtils {
             context: Context, errorMsg: String, problem: Throwable?) {
         val tag = context.javaClass.getSimpleName()
         val toastText: String
-        if (problem != null && problem.message != null) {
+        if (problem?.message != null) {
             Log.e(tag, errorMsg, problem)
             toastText = errorMsg + ": " + problem.message
         } else if (problem != null) {
@@ -92,7 +92,7 @@ object DemoUtils {
     }
 
     /** Check to see we have the necessary permissions for this app.  */
-    fun hasCameraPermission(activity: Activity): Boolean {
+    private fun hasCameraPermission(activity: Activity): Boolean {
         return ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
