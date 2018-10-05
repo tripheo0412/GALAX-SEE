@@ -73,13 +73,32 @@ class MainActivity : AppCompatActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
-        initPlanetModel()
-        initClearButton()
-
-
-
-
         val resolveButton : Button = findViewById(R.id.resolve_button)
+        val clearButton : Button = findViewById(R.id.clear_button)
+        initPlanetModel()
+        initClearButton(clearButton)
+        initResolveButton(resolveButton)
+
+
+
+
+        fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
+            if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
+                return@setOnTapArPlaneListener
+            }
+            resolveButton.isEnabled = false
+            val newAnchor = fragment.arSceneView.session.hostCloudAnchor(hitResult.createAnchor())
+
+            setCloudAnchor(newAnchor)
+
+            appAnchorState = AppAnchorState.HOSTING
+            snackbarHelper.showMessage(this, "Now hosting anchor...")
+            placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
+        }
+
+    }
+    private fun initResolveButton(resolveButton : Button) {
+
         resolveButton.setOnClickListener {
             resolveButton.isEnabled = false
             if (cloudAnchor != null) {
@@ -111,23 +130,10 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "Resolve")
 
         }
-        fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
-            if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
-                return@setOnTapArPlaneListener
-            }
-            resolveButton.isEnabled = false
-            val newAnchor = fragment.arSceneView.session.hostCloudAnchor(hitResult.createAnchor())
-
-            setCloudAnchor(newAnchor)
-
-            appAnchorState = AppAnchorState.HOSTING
-            snackbarHelper.showMessage(this, "Now hosting anchor...")
-            placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
-        }
-
     }
-    private fun initClearButton() {
-        val clearButton : Button = findViewById(R.id.clear_button)
+
+    private fun initClearButton(clearButton : Button) {
+
         clearButton.setOnClickListener {
             resolve_button.isEnabled = true
             setCloudAnchor(null)
