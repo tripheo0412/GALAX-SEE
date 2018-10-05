@@ -73,16 +73,11 @@ class MainActivity : AppCompatActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
+        initPlanetModel()
+        initClearButton()
 
-       initPlanetModel()
 
 
-
-        val clearButton : Button = findViewById(R.id.clear_button)
-        clearButton.setOnClickListener {
-            resolve_button.isEnabled = true
-            setCloudAnchor(null)
-        }
 
         val resolveButton : Button = findViewById(R.id.resolve_button)
         resolveButton.setOnClickListener {
@@ -131,7 +126,13 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
+    private fun initClearButton() {
+        val clearButton : Button = findViewById(R.id.clear_button)
+        clearButton.setOnClickListener {
+            resolve_button.isEnabled = true
+            setCloudAnchor(null)
+        }
+    }
 
     private fun initPlanetModel() {
         // Build all the planet models.
