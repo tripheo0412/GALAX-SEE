@@ -18,8 +18,16 @@ AR capable phone
 ```
 git clone https://github.com/tripheo0412/GALAX-SEE.git
 ```
-After cloning the project please use android studio to install the project to your phone
+After cloning the project please generate your ARCore API key through [Google Cloud Console](https://console.cloud.google.com/)
 
+Copy your generated API key and copy to Android Manifest
+
+```
+<meta-data
+            android:name="com.google.android.ar.API_KEY"
+            android:value="YOUR_API_KEY" />
+```
+Run the project through Android Studio
 ## Running the demo
 **To host a solar system**
 
