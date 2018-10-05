@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.dialog_handling
 
 import android.app.Activity
 import android.support.design.widget.BaseTransientBottomBar
@@ -68,7 +68,7 @@ import android.view.View
     }
 
     private fun show(
-    activity:Activity, message:String, dismissBehavior:DismissBehavior) {
+    activity:Activity, message:String, dismissBehavior: DismissBehavior) {
         activity.runOnUiThread(
         object:Runnable {
             override fun run() {

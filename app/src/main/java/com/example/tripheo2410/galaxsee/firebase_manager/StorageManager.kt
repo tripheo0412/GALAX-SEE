@@ -1,4 +1,4 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.firebase_manager
 
 import android.content.Context
 import android.util.Log

@@ -1,10 +1,10 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.splash_screen
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
-
+import com.example.tripheo2410.galaxsee.R
+import com.example.tripheo2410.galaxsee.main_activity.MainActivity
 
 
 class SplashScreenActivity : AppCompatActivity() {

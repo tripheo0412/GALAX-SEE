@@ -1,4 +1,4 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.planet_rendering
 
 import android.animation.ObjectAnimator
 import android.view.animation.LinearInterpolator

@@ -1,18 +1,24 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.main_activity
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Button
+import com.example.tripheo2410.galaxsee.*
+import com.example.tripheo2410.galaxsee.ar_fragment.CustomArFragment
+import com.example.tripheo2410.galaxsee.planet_rendering.Planet
+import com.example.tripheo2410.galaxsee.planet_rendering.RotatingNode
+import com.example.tripheo2410.galaxsee.planet_rendering.SolarSettings
+import com.example.tripheo2410.galaxsee.dialog_handling.DemoUtils
+import com.example.tripheo2410.galaxsee.dialog_handling.ResolveDialogFragment
+import com.example.tripheo2410.galaxsee.dialog_handling.SnackbarHelper
+import com.example.tripheo2410.galaxsee.firebase_manager.StorageManager
 import com.google.ar.core.Anchor
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.math.Vector3
@@ -63,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         activity = this
-        storageManager =  StorageManager(this)
+        storageManager = StorageManager(this)
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)

@@ -1,4 +1,4 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.ar_fragment
 
 import com.google.ar.core.Config;
 import com.google.ar.core.Session;

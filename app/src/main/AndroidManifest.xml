@@ -20,14 +20,14 @@
         <meta-data
             android:name="com.google.android.ar.API_KEY"
             android:value="AIzaSyBSoGiakxpku-BpBvE-uHJ4GNw9i87o2c4" />
-        <activity android:name="com.example.tripheo2410.galaxsee.SplashScreenActivity" android:theme="@style/SplashScreenTheme">
+        <activity android:name="com.example.tripheo2410.galaxsee.splash_screen.SplashScreenActivity" android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.tripheo2410.galaxsee.MainActivity">
+        <activity android:name="com.example.tripheo2410.galaxsee.main_activity.MainActivity">
 
         </activity>
     </application>

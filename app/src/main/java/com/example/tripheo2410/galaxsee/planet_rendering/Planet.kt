@@ -1,8 +1,9 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.planet_rendering
 
 import android.content.Context
 import android.view.MotionEvent
 import android.widget.TextView
+import com.example.tripheo2410.galaxsee.R
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.HitTestResult
 import com.google.ar.sceneform.Node

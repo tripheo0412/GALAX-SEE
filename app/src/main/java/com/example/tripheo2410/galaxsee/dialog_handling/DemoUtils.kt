@@ -1,4 +1,4 @@
-package com.example.tripheo2410.galaxsee
+package com.example.tripheo2410.galaxsee.dialog_handling
 
 import android.Manifest
 import android.app.Activity
