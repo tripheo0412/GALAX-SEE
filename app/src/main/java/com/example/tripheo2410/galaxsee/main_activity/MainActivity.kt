@@ -78,10 +78,11 @@ class MainActivity : AppCompatActivity() {
         initPlanetModel()
         initClearButton(clearButton)
         initResolveButton(resolveButton)
+        planeListener(resolveButton)
 
+    }
 
-
-
+    private fun planeListener(resolveButton: Button) {
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
             if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
                 return@setOnTapArPlaneListener
@@ -95,8 +96,8 @@ class MainActivity : AppCompatActivity() {
             snackbarHelper.showMessage(this, "Now hosting anchor...")
             placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
         }
-
     }
+
     private fun initResolveButton(resolveButton : Button) {
 
         resolveButton.setOnClickListener {
