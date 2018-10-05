@@ -74,56 +74,9 @@ class MainActivity : AppCompatActivity() {
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
 
-        // Build all the planet models.
-        val sunStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build()
-        val mercuryStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Mercury.sfb")).build()
-        val venusStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Venus.sfb")).build()
-        val earthStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Earth.sfb")).build()
-        val lunaStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Luna.sfb")).build()
-        val marsStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Mars.sfb")).build()
-        val jupiterStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Jupiter.sfb")).build()
-        val saturnStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Saturn.sfb")).build()
-        val uranusStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Uranus.sfb")).build()
-        val neptuneStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Neptune.sfb")).build()
+       initPlanetModel()
 
-        // Build a renderable from a 2D View.
-        CompletableFuture.allOf(
-                sunStage,
-                mercuryStage,
-                venusStage,
-                earthStage,
-                lunaStage,
-                marsStage,
-                jupiterStage,
-                saturnStage,
-                uranusStage,
-                neptuneStage)
-                .handle<Any> { _, throwable ->
-                    if (throwable != null) {
-                        DemoUtils.displayError(this, "Unable to load renderable", throwable)
-                        return@handle null
-                    }
 
-                    try {
-                        sunRenderable = sunStage.get()
-                        mercuryRenderable = mercuryStage.get()
-                        venusRenderable = venusStage.get()
-                        earthRenderable = earthStage.get()
-                        lunaRenderable = lunaStage.get()
-                        marsRenderable = marsStage.get()
-                        jupiterRenderable = jupiterStage.get()
-                        saturnRenderable = saturnStage.get()
-                        uranusRenderable = uranusStage.get()
-                        neptuneRenderable = neptuneStage.get()
-                        // Everything finished loading successfully.
-                        hasFinishedLoading = true
-
-                    } catch (ex: InterruptedException) {
-                        DemoUtils.displayError(this, "Unable to load renderable", ex)
-                    }
-
-                    null
-                }
 
         val clearButton : Button = findViewById(R.id.clear_button)
         clearButton.setOnClickListener {
@@ -177,6 +130,60 @@ class MainActivity : AppCompatActivity() {
             placeObject(fragment, cloudAnchor, Uri.parse("Sol.sfb"))
         }
 
+    }
+
+
+    private fun initPlanetModel() {
+        // Build all the planet models.
+        val sunStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build()
+        val mercuryStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Mercury.sfb")).build()
+        val venusStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Venus.sfb")).build()
+        val earthStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Earth.sfb")).build()
+        val lunaStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Luna.sfb")).build()
+        val marsStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Mars.sfb")).build()
+        val jupiterStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Jupiter.sfb")).build()
+        val saturnStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Saturn.sfb")).build()
+        val uranusStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Uranus.sfb")).build()
+        val neptuneStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Neptune.sfb")).build()
+
+        // Build a renderable from a 2D View.
+        CompletableFuture.allOf(
+                sunStage,
+                mercuryStage,
+                venusStage,
+                earthStage,
+                lunaStage,
+                marsStage,
+                jupiterStage,
+                saturnStage,
+                uranusStage,
+                neptuneStage)
+                .handle<Any> { _, throwable ->
+                    if (throwable != null) {
+                        DemoUtils.displayError(this, "Unable to load renderable", throwable)
+                        return@handle null
+                    }
+
+                    try {
+                        sunRenderable = sunStage.get()
+                        mercuryRenderable = mercuryStage.get()
+                        venusRenderable = venusStage.get()
+                        earthRenderable = earthStage.get()
+                        lunaRenderable = lunaStage.get()
+                        marsRenderable = marsStage.get()
+                        jupiterRenderable = jupiterStage.get()
+                        saturnRenderable = saturnStage.get()
+                        uranusRenderable = uranusStage.get()
+                        neptuneRenderable = neptuneStage.get()
+                        // Everything finished loading successfully.
+                        hasFinishedLoading = true
+
+                    } catch (ex: InterruptedException) {
+                        DemoUtils.displayError(this, "Unable to load renderable", ex)
+                    }
+
+                    null
+                }
     }
 
     @Synchronized
