@@ -20,7 +20,7 @@ git clone https://github.com/tripheo0412/GALAX-SEE.git
 ```
 After cloning the project please generate your ARCore API key through [Google Cloud Console](https://console.cloud.google.com/)
 
-Copy your generated API key and copy to Android Manifest
+Copy your generated API key and paste into Android Manifest
 
 ```
 <meta-data
