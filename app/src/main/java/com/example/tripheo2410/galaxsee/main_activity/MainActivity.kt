@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var appAnchorState = AppAnchorState.NONE
+
+    /** on create */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /** set up plane listener of ar fragment*/
     private fun planeListener(resolveButton: Button) {
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
             if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
@@ -98,6 +101,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    /** set up resolve button*/
     private fun initResolveButton(resolveButton : Button) {
 
         resolveButton.setOnClickListener {
@@ -133,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** set up clear button*/
     private fun initClearButton(clearButton : Button) {
 
         clearButton.setOnClickListener {
@@ -141,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** create completable future model so planets are rendered background out of main thread*/
     private fun initPlanetModel() {
         // Build all the planet models.
         val sunStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build()
@@ -194,6 +201,7 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
+    /** check every frame for appropriate message for state*/
     @Synchronized
     private fun checkUpdatedAnchor() {
         if (appAnchorState !== AppAnchorState.HOSTING && appAnchorState !== AppAnchorState.RESOLVING) {
@@ -237,7 +245,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
+    /** pass a renderable to addNoteToScene */
     private fun placeObject(fragment: ArFragment, anchor: Anchor?, model: Uri) {
         ModelRenderable.builder()
                 .setSource(fragment.context, model)
@@ -254,6 +262,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /** create solar system and place it correctly using anchor coordinate */
     private fun addNodeToScene(fragment: ArFragment, anchor: Anchor, renderable: Renderable) {
         val anchorNode = AnchorNode(anchor)
         val sun = TransformableNode(fragment.transformationSystem)
@@ -289,6 +298,7 @@ class MainActivity : AppCompatActivity() {
         sun.select()
     }
 
+    /** set clound anchor or reset it*/
     private fun setCloudAnchor(newAnchor: Anchor?) {
         if (cloudAnchor != null) {
             cloudAnchor!!.detach()
@@ -298,7 +308,7 @@ class MainActivity : AppCompatActivity() {
         snackbarHelper.hide(this)
     }
 
-
+    /** create requested Planet */
     private fun createPlanet(
             name: String,
             parent: Node,
