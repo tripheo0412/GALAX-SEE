@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private var saturnRenderable: ModelRenderable? = null
     private var uranusRenderable: ModelRenderable? = null
     private var neptuneRenderable: ModelRenderable? = null
-    private val solarControlsRenderable: ViewRenderable? = null
+    private var solarControlsRenderable: ViewRenderable? = null
 
     // True once scene is loaded
     private var hasFinishedLoading = false
@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     /** create completable future model so planets are rendered background out of main thread*/
     private fun initPlanetModel() {
+        val solarControlsStage = ViewRenderable.builder().setView(this, R.layout.solar_controls).build()
         // Build all the planet models.
         val sunStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build()
         val mercuryStage : CompletableFuture<ModelRenderable> = ModelRenderable.builder().setSource(this, Uri.parse("Mercury.sfb")).build()
@@ -173,7 +174,8 @@ class MainActivity : AppCompatActivity() {
                 jupiterStage,
                 saturnStage,
                 uranusStage,
-                neptuneStage)
+                neptuneStage,
+                solarControlsStage)
                 .handle<Any> { _, throwable ->
                     if (throwable != null) {
                         DemoUtils.displayError(this, "Unable to load renderable", throwable)
@@ -191,6 +193,7 @@ class MainActivity : AppCompatActivity() {
                         saturnRenderable = saturnStage.get()
                         uranusRenderable = uranusStage.get()
                         neptuneRenderable = neptuneStage.get()
+                        solarControlsRenderable = solarControlsStage.get()
                         // Everything finished loading successfully.
                         hasFinishedLoading = true
 
@@ -284,7 +287,7 @@ class MainActivity : AppCompatActivity() {
 
         val solarControlsView = solarControlsRenderable!!.view
         val orbitSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.orbitSpeedBar)
-        orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f) as Int
+        orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f).toInt()
         orbitSpeedBar.setOnSeekBarChangeListener(
                 object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -298,7 +301,7 @@ class MainActivity : AppCompatActivity() {
                 })
 
         val rotationSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.rotationSpeedBar)
-        rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f) as Int
+        rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f).toInt()
         rotationSpeedBar.setOnSeekBarChangeListener(
                 object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
