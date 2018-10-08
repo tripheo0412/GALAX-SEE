@@ -285,6 +285,7 @@ class MainActivity : AppCompatActivity() {
         solarControls.renderable = solarControlsRenderable
         solarControls.localPosition = Vector3(0.0f, 0.25f, 0.0f)
 
+        // orbit speed changing
         val solarControlsView = solarControlsRenderable!!.view
         val orbitSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.orbitSpeedBar)
         orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f).toInt()
@@ -300,6 +301,7 @@ class MainActivity : AppCompatActivity() {
                     override fun onStopTrackingTouch(seekBar: SeekBar) {}
                 })
 
+        //rotation speed changing
         val rotationSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.rotationSpeedBar)
         rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f).toInt()
         rotationSpeedBar.setOnSeekBarChangeListener(
