@@ -27,6 +27,13 @@ Copy your generated API key and paste into Android Manifest
             android:name="com.google.android.ar.API_KEY"
             android:value="YOUR_API_KEY" />
 ```
+
+Connect your Firebase - realtime database, go to [Firebase](https://console.firebase.google.com/)
+
+Create new project, add **com.example.tripheo2410.galaxsee** to project's app
+
+Download generated google-services.json and copy it to app folder
+
 Run the project through Android Studio
 ## Running the demo
 **To host a solar system**
