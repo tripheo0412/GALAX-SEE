@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Button
+import android.widget.SeekBar
 import com.example.tripheo2410.galaxsee.*
 import com.example.tripheo2410.galaxsee.ar_fragment.CustomArFragment
 import com.example.tripheo2410.galaxsee.planet_rendering.Planet
@@ -275,6 +276,43 @@ class MainActivity : AppCompatActivity() {
         sunVisual.setParent(sun)
         sunVisual.renderable = sunRenderable
         sunVisual.localScale = Vector3(0.5f, 0.5f, 0.5f)
+
+        val solarControls = Node()
+        solarControls.setParent(sun)
+        solarControls.renderable = solarControlsRenderable
+        solarControls.localPosition = Vector3(0.0f, 0.25f, 0.0f)
+
+        val solarControlsView = solarControlsRenderable!!.view
+        val orbitSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.orbitSpeedBar)
+        orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f) as Int
+        orbitSpeedBar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        val ratio = progress.toFloat() / orbitSpeedBar.max.toFloat()
+                        solarSettings.orbitSpeedMultiplier = ratio * 10.0f
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                })
+
+        val rotationSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.rotationSpeedBar)
+        rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f) as Int
+        rotationSpeedBar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        val ratio = progress.toFloat() / rotationSpeedBar.max.toFloat()
+                        solarSettings.rotationSpeedMultiplier = ratio * 10.0f
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                })
+
+        // Toggle the solar controls on and off by tapping the sun.
+        sunVisual.setOnTapListener { hitTestResult, motionEvent -> solarControls.isEnabled = !solarControls.isEnabled }
 
         createPlanet("Mercury", sun, 0.4f, 47f, mercuryRenderable, 0.019f)
 
