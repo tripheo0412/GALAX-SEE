@@ -1,9 +1,11 @@
 package com.example.tripheo2410.galaxsee.main_activity
 
 import android.app.Activity
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.SeekBar
@@ -29,6 +31,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_main.*
+import tourguide.tourguide.TourGuide
 import java.util.concurrent.CompletableFuture
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         // Astronomical units to meters ratio. Used for positioning the planets of the solar system.
         private const val AU_TO_METERS = 0.5f
+        const val COLOR_DEMO = "color_demo"
+        const val GRAVITY_DEMO = "gravity_demo"
     }
     private enum class AppAnchorState {
         NONE,
@@ -78,11 +83,48 @@ class MainActivity : AppCompatActivity() {
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
         val resolveButton : Button = findViewById(R.id.resolve_button)
         val clearButton : Button = findViewById(R.id.clear_button)
+        setUpTourGuide(clearButton,resolveButton)
         initPlanetModel()
         initClearButton(clearButton)
         initResolveButton(resolveButton)
         planeListener(resolveButton)
 
+    }
+
+    /** set up tour guide*/
+    private fun setUpTourGuide(clearButton : Button, resolveButton : Button) {
+        val colorDemo = intent.getBooleanExtra(COLOR_DEMO, false)
+        val gravityDemo = intent.getBooleanExtra(GRAVITY_DEMO, false)
+        val tourGuide = TourGuide.create(this) {
+            technique = TourGuide.Technique.CLICK
+            pointer {
+                color {
+                    if (colorDemo) {
+                        Color.RED
+                    } else {
+                        Color.WHITE
+                    }
+                }
+                gravity {
+                    if (gravityDemo) {
+                        Gravity.BOTTOM or Gravity.RIGHT
+                    } else {
+                        Gravity.CENTER
+                    }
+                }
+            }
+            toolTip {
+                title { "Welcome!" }
+                description { "Click on Get Started to begin..." }
+            }
+            overlay {
+                backgroundColor { Color.parseColor("#66FF0000") }
+            }
+        }
+        val handler = tourGuide playOn clearButton
+
+        clearButton.setOnClickListener { handler.cleanUp() }
+        resolveButton.setOnClickListener { handler.playOn(resolveButton) }
     }
 
     /** set up plane listener of ar fragment*/

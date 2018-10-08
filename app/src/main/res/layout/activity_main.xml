@@ -20,13 +20,30 @@
         android:id="@+id/clear_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear"/>
+        android:layout_gravity="center"
+        android:background="#27ae60"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Hide TourGuide"
+        android:textColor="#fbfcfc" />
 
     <Button
         android:id="@+id/resolve_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Resolve"/>
+        android:layout_gravity="center"
+        android:background="#27ae60"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="show again"
+        android:textColor="#fbfcfc" />
 
   </LinearLayout>
 
