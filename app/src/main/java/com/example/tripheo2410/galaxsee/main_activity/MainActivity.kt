@@ -285,34 +285,34 @@ class MainActivity : AppCompatActivity() {
         solarControls.renderable = solarControlsRenderable
         solarControls.localPosition = Vector3(0.0f, 0.25f, 0.0f)
 
-//        val solarControlsView = solarControlsRenderable!!.view
-//        val orbitSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.orbitSpeedBar)
-//        orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f).toInt()
-//        orbitSpeedBar.setOnSeekBarChangeListener(
-//                object : SeekBar.OnSeekBarChangeListener {
-//                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-//                        val ratio = progress.toFloat() / orbitSpeedBar.max.toFloat()
-//                        solarSettings.orbitSpeedMultiplier = ratio * 10.0f
-//                    }
-//
-//                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
-//
-//                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
-//                })
-//
-//        val rotationSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.rotationSpeedBar)
-//        rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f).toInt()
-//        rotationSpeedBar.setOnSeekBarChangeListener(
-//                object : SeekBar.OnSeekBarChangeListener {
-//                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-//                        val ratio = progress.toFloat() / rotationSpeedBar.max.toFloat()
-//                        solarSettings.rotationSpeedMultiplier = ratio * 10.0f
-//                    }
-//
-//                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
-//
-//                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
-//                })
+        val solarControlsView = solarControlsRenderable!!.view
+        val orbitSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.orbitSpeedBar)
+        orbitSpeedBar.progress = (solarSettings.orbitSpeedMultiplier * 10.0f).toInt()
+        orbitSpeedBar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        val ratio = progress.toFloat() / orbitSpeedBar.max.toFloat()
+                        solarSettings.orbitSpeedMultiplier = ratio * 10.0f
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                })
+
+        val rotationSpeedBar = solarControlsView.findViewById<SeekBar>(R.id.rotationSpeedBar)
+        rotationSpeedBar.progress = (solarSettings.rotationSpeedMultiplier * 10.0f).toInt()
+        rotationSpeedBar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        val ratio = progress.toFloat() / rotationSpeedBar.max.toFloat()
+                        solarSettings.rotationSpeedMultiplier = ratio * 10.0f
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                })
 
         // Toggle the solar controls on and off by tapping the sun.
         sunVisual.setOnTapListener { hitTestResult, motionEvent -> solarControls.isEnabled = !solarControls.isEnabled }
