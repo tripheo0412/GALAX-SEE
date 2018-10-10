@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main_activity.MainActivity">
+    tools:context=".mainActivity.MainActivity">
 
     <fragment
         android:id="@+id/sceneform_fragment"
-        android:name="com.example.tripheo2410.galaxsee.ar_fragment.CustomArFragment"
+        android:name="com.example.tripheo2410.galaxsee.arFragment.CustomArFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -31,9 +31,9 @@
         android:layout_marginEnd="13dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="55dp"
-        fab:fab_addButtonColorNormal="@color/white"
+        fab:fab_addButtonColorNormal="@color/colorPrimary"
         fab:fab_addButtonColorPressed="@color/white_pressed"
-        fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_addButtonPlusIconColor="@color/Orange"
         fab:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
