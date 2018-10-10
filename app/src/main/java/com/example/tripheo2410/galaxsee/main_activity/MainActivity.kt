@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.view.Gravity
 import android.view.MotionEvent
 import android.widget.Button
@@ -81,8 +82,8 @@ class MainActivity : AppCompatActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
-        val resolveButton : Button = findViewById(R.id.resolve_button)
-        val clearButton : Button = findViewById(R.id.clear_button)
+        val resolveButton : FloatingActionButton = findViewById(R.id.resolve_button)
+        val clearButton : FloatingActionButton = findViewById(R.id.clear_button)
         //setUpTourGuide(clearButton,resolveButton)
         initPlanetModel()
         initClearButton(clearButton)
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** set up plane listener of ar fragment*/
-    private fun planeListener(resolveButton: Button) {
+    private fun planeListener(resolveButton: FloatingActionButton) {
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
             if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
                 return@setOnTapArPlaneListener
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
 
     /** set up resolve button*/
-    private fun initResolveButton(resolveButton : Button) {
+    private fun initResolveButton(resolveButton : FloatingActionButton) {
 
         resolveButton.setOnClickListener {
             resolveButton.isEnabled = false
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** set up clear button*/
-    private fun initClearButton(clearButton : Button) {
+    private fun initClearButton(clearButton : FloatingActionButton) {
 
         clearButton.setOnClickListener {
             resolve_button.isEnabled = true
