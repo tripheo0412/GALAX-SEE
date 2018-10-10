@@ -108,41 +108,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** set up tour guide*/
-    private fun setUpTourGuide(clearButton : Button, resolveButton : Button) {
-        val colorDemo = intent.getBooleanExtra(COLOR_DEMO, false)
-        val gravityDemo = intent.getBooleanExtra(GRAVITY_DEMO, false)
-        val tourGuide = TourGuide.create(this) {
-            technique = TourGuide.Technique.CLICK
-            pointer {
-                color {
-                    if (colorDemo) {
-                        Color.RED
-                    } else {
-                        Color.WHITE
-                    }
-                }
-                gravity {
-                    if (gravityDemo) {
-                        Gravity.BOTTOM or Gravity.RIGHT
-                    } else {
-                        Gravity.CENTER
-                    }
-                }
-            }
-            toolTip {
-                title { "Welcome!" }
-                description { "Click on Get Started to begin..." }
-            }
-            overlay {
-                backgroundColor { Color.parseColor("#66FF0000") }
-            }
-        }
-        val handler = tourGuide playOn clearButton
-
-        clearButton.setOnClickListener { handler.cleanUp() }
-        resolveButton.setOnClickListener { handler.playOn(resolveButton) }
-    }
+//    /** set up tour guide*/
+//    private fun setUpTourGuide(clearButton : Button, resolveButton : Button) {
+//        val colorDemo = intent.getBooleanExtra(COLOR_DEMO, false)
+//        val gravityDemo = intent.getBooleanExtra(GRAVITY_DEMO, false)
+//        val tourGuide = TourGuide.create(this) {
+//            technique = TourGuide.Technique.CLICK
+//            pointer {
+//                color {
+//                    if (colorDemo) {
+//                        Color.RED
+//                    } else {
+//                        Color.WHITE
+//                    }
+//                }
+//                gravity {
+//                    if (gravityDemo) {
+//                        Gravity.BOTTOM or Gravity.RIGHT
+//                    } else {
+//                        Gravity.CENTER
+//                    }
+//                }
+//            }
+//            toolTip {
+//                title { "Welcome!" }
+//                description { "Click on Get Started to begin..." }
+//            }
+//            overlay {
+//                backgroundColor { Color.parseColor("#66FF0000") }
+//            }
+//        }
+//        val handler = tourGuide playOn clearButton
+//
+//        clearButton.setOnClickListener { handler.cleanUp() }
+//        resolveButton.setOnClickListener { handler.playOn(resolveButton) }
+//    }
 
 
     /** set up resolve button*/
