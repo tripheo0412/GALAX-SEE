@@ -1,14 +1,10 @@
 package com.example.tripheo2410.galaxsee.main_activity
 
 import android.app.Activity
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.view.Gravity
 import android.view.MotionEvent
-import android.widget.Button
 import android.widget.SeekBar
 import com.example.tripheo2410.galaxsee.*
 import com.example.tripheo2410.galaxsee.ar_fragment.CustomArFragment
@@ -32,7 +28,6 @@ import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_main.*
-import tourguide.tourguide.TourGuide
 import java.util.concurrent.CompletableFuture
 
 class MainActivity : AppCompatActivity() {
@@ -82,18 +77,23 @@ class MainActivity : AppCompatActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CustomArFragment
         fragment.planeDiscoveryController.hide()
         fragment.arSceneView.scene.setOnUpdateListener(this::onUpdateFrame)
-        val resolveButton : FloatingActionButton = findViewById(R.id.resolve_button)
-        val clearButton : FloatingActionButton = findViewById(R.id.clear_button)
-        //setUpTourGuide(clearButton,resolveButton)
+        val resolveButton : com.getbase.floatingactionbutton.FloatingActionButton = findViewById(R.id.resolve_button)
+        val clearButton : com.getbase.floatingactionbutton.FloatingActionButton = findViewById(R.id.clear_button)
         initPlanetModel()
         initClearButton(clearButton)
         initResolveButton(resolveButton)
         planeListener(resolveButton)
 
+
+    }
+
+    /** set up menu*/
+    private fun setUpMenu() {
+
     }
 
     /** set up plane listener of ar fragment*/
-    private fun planeListener(resolveButton: FloatingActionButton) {
+    private fun planeListener(resolveButton: com.getbase.floatingactionbutton.FloatingActionButton) {
         fragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, _: MotionEvent ->
             if (plane.type !== Plane.Type.HORIZONTAL_UPWARD_FACING) {
                 return@setOnTapArPlaneListener
@@ -109,45 +109,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    /** set up tour guide*/
-//    private fun setUpTourGuide(clearButton : Button, resolveButton : Button) {
-//        val colorDemo = intent.getBooleanExtra(COLOR_DEMO, false)
-//        val gravityDemo = intent.getBooleanExtra(GRAVITY_DEMO, false)
-//        val tourGuide = TourGuide.create(this) {
-//            technique = TourGuide.Technique.CLICK
-//            pointer {
-//                color {
-//                    if (colorDemo) {
-//                        Color.RED
-//                    } else {
-//                        Color.WHITE
-//                    }
-//                }
-//                gravity {
-//                    if (gravityDemo) {
-//                        Gravity.BOTTOM or Gravity.RIGHT
-//                    } else {
-//                        Gravity.CENTER
-//                    }
-//                }
-//            }
-//            toolTip {
-//                title { "Welcome!" }
-//                description { "Click on Get Started to begin..." }
-//            }
-//            overlay {
-//                backgroundColor { Color.parseColor("#66FF0000") }
-//            }
-//        }
-//        val handler = tourGuide playOn clearButton
-//
-//        clearButton.setOnClickListener { handler.cleanUp() }
-//        resolveButton.setOnClickListener { handler.playOn(resolveButton) }
-//    }
-
-
     /** set up resolve button*/
-    private fun initResolveButton(resolveButton : FloatingActionButton) {
+    private fun initResolveButton(resolveButton : com.getbase.floatingactionbutton.FloatingActionButton) {
 
         resolveButton.setOnClickListener {
             resolveButton.isEnabled = false
@@ -183,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** set up clear button*/
-    private fun initClearButton(clearButton : FloatingActionButton) {
+    private fun initClearButton(clearButton : com.getbase.floatingactionbutton.FloatingActionButton) {
 
         clearButton.setOnClickListener {
             resolve_button.isEnabled = true
